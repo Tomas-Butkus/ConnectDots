@@ -1,6 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +9,7 @@ public class GameManager : MonoBehaviour
     private Levels levelsCollection;
     private int currentLevelIndex = 0;
 
+    public int currentDotIndex;
     public static GameManager Instance;
 
     private void Awake()
@@ -24,6 +23,7 @@ public class GameManager : MonoBehaviour
         SetupDots();
     }
 
+    // Read JSON file, save reference to levels and extract their coordinates
     private void SetupLevels()
     {
         levelsCollection = jSONReader.ReadLevelsFile();
@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Setup dots depending on the level
     private void SetupDots()
     {
         // Get current level data
@@ -47,14 +48,15 @@ public class GameManager : MonoBehaviour
         // Populate dots in the level and set their parent
         for (int i = 0; i < currentLevelData.level_data.Count / 2; i++)
         {
-            int xCoordinate = currentLevelData.xCoordinates[i];
-            int yCoordinate = currentLevelData.yCoordinates[i];
+            int xCoordinate = currentLevelData.xCoordinates[i] / 100;
+            int yCoordinate = currentLevelData.yCoordinates[i] / 100;
 
             GameObject dot = Instantiate(dotPrefab);
-            dot.transform.localPosition = new Vector3(xCoordinate, yCoordinate);
+            dot.transform.position = new Vector3(xCoordinate, yCoordinate);
             dot.transform.parent = dotsDiagram.transform;
+            dot.GetComponent<Dot>().orderIndex = i + 1;
 
-            
+            dot.GetComponentInChildren<TextMeshPro>().text = (i + 1).ToString();
         }
     }
 
