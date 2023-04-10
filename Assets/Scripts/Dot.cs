@@ -9,12 +9,10 @@ public class Dot : MonoBehaviour
     public bool isConnected = false;
 
     private SpriteRenderer spriteRenderer;
-    private LineRenderer lineRenderer;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        lineRenderer = GetComponent<LineRenderer>();
     }
 
     private void Start()

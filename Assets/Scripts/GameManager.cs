@@ -1,26 +1,40 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private JSONReader jSONReader;
     [SerializeField] private GameObject dotPrefab;
 
-    private Levels levelsCollection;
-    private int currentLevelIndex = 0;
+    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private GameObject buttonParent;
 
+    private Levels levelsCollection;
+
+    public static int currentLevelIndex;
+    public float endGameTimer = 10f;
+    public List<Dot> dotList;
     public int currentDotIndex;
     public static GameManager Instance;
 
     private void Awake()
     {
         SetupSingleton();
+        SetupLevels();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        SetupLevels();
-        SetupDots();
+        if (SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            SetupDots();
+        }
+        else
+        {
+            SetupLevelDisplay();
+        }
     }
 
     // Read JSON file, save reference to levels and extract their coordinates
@@ -38,12 +52,14 @@ public class GameManager : MonoBehaviour
     private void SetupDots()
     {
         // Get current level data
-        LevelData currentLevelData = levelsCollection.levels[currentLevelIndex];
+        LevelData currentLevelData = levelsCollection.levels[currentLevelIndex - 1];
 
         // Create a parent for dots
         GameObject dotsDiagram = new GameObject();
         dotsDiagram.name = "DotsDiagram";
         dotsDiagram.transform.position = transform.position;
+
+        float aspectRatio = (float)Screen.width / (float)Screen.height;
 
         // Populate dots in the level and set their parent
         for (int i = 0; i < currentLevelData.level_data.Count / 2; i++)
@@ -55,8 +71,32 @@ public class GameManager : MonoBehaviour
             dot.transform.position = new Vector3(xCoordinate, yCoordinate);
             dot.transform.parent = dotsDiagram.transform;
             dot.GetComponent<Dot>().orderIndex = i + 1;
-
             dot.GetComponentInChildren<TextMeshPro>().text = (i + 1).ToString();
+
+            dotList.Add(dot.GetComponent<Dot>());
+        }
+    }
+
+    // Load level selection scene
+    public void LoadLevelSelectionScreen()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    // Load selected level
+    public void LoadLevel(int levelIndex)
+    {
+        currentLevelIndex = levelIndex;
+        SceneManager.LoadScene(1);
+    }
+
+    // Display levels on screen
+    private void SetupLevelDisplay()
+    {
+        for (int i = 0; i < levelsCollection.levels.Count; i++)
+        {
+            GameObject button = Instantiate(buttonPrefab, buttonParent.transform);
+            button.GetComponentInChildren<TextMeshProUGUI>().text = (i + 1).ToString();
         }
     }
 

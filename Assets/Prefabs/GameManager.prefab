@@ -48,6 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jSONReader: {fileID: 5207824442338502476}
   dotPrefab: {fileID: 6974105082689134103, guid: 230ff1ee4812c0a43a69917ad2791f2c, type: 3}
+  buttonPrefab: {fileID: 6767467799492787768, guid: 59e2d39f8961a8343834126d6a2e88cd, type: 3}
+  buttonParent: {fileID: 0}
+  endGameTimer: 3
+  dotList: []
+  currentDotIndex: 0
 --- !u!114 &5207824442338502476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,3 +78,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28593c32d9dc23449e404c1e8d88df4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ropeSpeed: 2
+  fadeOutDuration: 2
