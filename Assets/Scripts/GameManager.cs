@@ -59,16 +59,17 @@ public class GameManager : MonoBehaviour
         dotsDiagram.name = "DotsDiagram";
         dotsDiagram.transform.position = transform.position;
 
-        float aspectRatio = (float)Screen.width / (float)Screen.height;
-
         // Populate dots in the level and set their parent
         for (int i = 0; i < currentLevelData.level_data.Count / 2; i++)
         {
-            int xCoordinate = currentLevelData.xCoordinates[i] / 100;
-            int yCoordinate = currentLevelData.yCoordinates[i] / 100;
+            Vector3 worldpointCoordinates = Camera.main.ScreenToWorldPoint(new Vector3(currentLevelData.xCoordinates[i], currentLevelData.yCoordinates[i], 0));
+
+            float xCoordinate = worldpointCoordinates.x;
+            float yCoordinate = worldpointCoordinates.y;
+            yCoordinate = -yCoordinate;
 
             GameObject dot = Instantiate(dotPrefab);
-            dot.transform.position = new Vector3(xCoordinate, yCoordinate);
+            dot.transform.position = new Vector3(xCoordinate, yCoordinate, 0);
             dot.transform.parent = dotsDiagram.transform;
             dot.GetComponent<Dot>().orderIndex = i + 1;
             dot.GetComponentInChildren<TextMeshPro>().text = (i + 1).ToString();
