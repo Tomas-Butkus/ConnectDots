@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         GameObject dotsDiagram = new GameObject();
         dotsDiagram.name = "DotsDiagram";
         dotsDiagram.transform.position = transform.position;
+        CameraAdjustment cameraAdjustment = dotsDiagram.AddComponent<CameraAdjustment>();
 
         // Populate dots in the level and set their parent
         for (int i = 0; i < currentLevelData.level_data.Count / 2; i++)
@@ -76,6 +77,22 @@ public class GameManager : MonoBehaviour
 
             dotList.Add(dot.GetComponent<Dot>());
         }
+
+        // Check if dots are overlapping
+        for (int i = 0; i < dotList.Count; i++)
+        {
+            Collider2D[] overlapCollider = Physics2D.OverlapCircleAll(dotList[i].transform.position, 1f);
+
+            if(overlapCollider != null)
+            {
+                for (int x = 0; x < dotList.Count; x++)
+                {
+                    dotList[i].transform.localScale = new Vector3(.5f, .5f, 0);
+                }
+            }
+        }
+
+        cameraAdjustment.AdjustCamera();
     }
 
     // Load level selection scene
