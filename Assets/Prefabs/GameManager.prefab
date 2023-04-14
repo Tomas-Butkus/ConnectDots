@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jSONReader: {fileID: 5207824442338502476}
   dotPrefab: {fileID: 6974105082689134103, guid: 230ff1ee4812c0a43a69917ad2791f2c, type: 3}
+  dotParent: {fileID: 2769069208922527000, guid: 613b1dbe31459c34794ee12ed3ba4d02, type: 3}
   buttonPrefab: {fileID: 6767467799492787768, guid: 59e2d39f8961a8343834126d6a2e88cd, type: 3}
   buttonParent: {fileID: 0}
   endGameTimer: 3

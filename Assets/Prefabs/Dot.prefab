@@ -184,7 +184,7 @@ GameObject:
   - component: {fileID: 6974105082689134104}
   - component: {fileID: 446324607863764073}
   - component: {fileID: 444344073298756520}
-  - component: {fileID: 9105667032100788751}
+  - component: {fileID: 7948846122713235381}
   m_Layer: 0
   m_Name: Dot
   m_TagString: Dot
@@ -375,7 +375,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!58 &9105667032100788751
+--- !u!58 &7948846122713235381
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -390,4 +390,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 0.5

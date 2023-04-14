@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private JSONReader jSONReader;
     [SerializeField] private GameObject dotPrefab;
+    [SerializeField] private GameObject dotParent;
 
     [SerializeField] private GameObject buttonPrefab;
     [SerializeField] private GameObject buttonParent;
@@ -55,10 +56,8 @@ public class GameManager : MonoBehaviour
         LevelData currentLevelData = levelsCollection.levels[currentLevelIndex - 1];
 
         // Create a parent for dots
-        GameObject dotsDiagram = new GameObject();
-        dotsDiagram.name = "DotsDiagram";
-        dotsDiagram.transform.position = transform.position;
-        CameraAdjustment cameraAdjustment = dotsDiagram.AddComponent<CameraAdjustment>();
+        GameObject dotsDiagram = Instantiate(dotParent);
+        dotsDiagram.transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0, 1, 0));
 
         // Populate dots in the level and set their parent
         for (int i = 0; i < currentLevelData.level_data.Count / 2; i++)
@@ -78,21 +77,7 @@ public class GameManager : MonoBehaviour
             dotList.Add(dot.GetComponent<Dot>());
         }
 
-        // Check if dots are overlapping
-        for (int i = 0; i < dotList.Count; i++)
-        {
-            Collider2D[] overlapCollider = Physics2D.OverlapCircleAll(dotList[i].transform.position, 1f);
-
-            if(overlapCollider != null)
-            {
-                for (int x = 0; x < dotList.Count; x++)
-                {
-                    dotList[i].transform.localScale = new Vector3(.5f, .5f, 0);
-                }
-            }
-        }
-
-        cameraAdjustment.AdjustCamera();
+        dotsDiagram.transform.localScale = new Vector3(0.5f, 0.5f, Camera.main.nearClipPlane);
     }
 
     // Load level selection scene
